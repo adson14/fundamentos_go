@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  api_go:
+    container_name: go_api
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/go/src/
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://postgres:123456@postgres:5432/db
+      NODE_ENV: development
+
+  postgres:
+    container_name: db_postgres_go
+    image: postgres:14.2
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "123456"
+      POSTGRES_DB: db
